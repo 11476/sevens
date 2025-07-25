@@ -11,5 +11,5 @@ while running:
             running = False
 
     py.display.flip()
-    clock.tick(60)
+    clock.tick(31)
 py.quit()
