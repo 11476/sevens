@@ -18,7 +18,7 @@ while running:
     cx = (width - grid_width) // 2
     cy = (height - grid_height) // 2
     #draw square underlay
-    py.draw.rect(screen, "#96a0b0", (cx, cy, grid_width, grid_height), 2)
+    py.draw.rect(screen, "#96a0b0", (cx, cy, grid_width, grid_height))
     # draw 5x5 square of rectangles
    
     for i in range(5):
