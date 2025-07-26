@@ -18,7 +18,7 @@ while running:
     # draw 5x5 square of rectangles
     for i in range(5):
         for j in range(5):
-            py.draw.rect(screen, "black", (i*120+cx, j*120+cy, 100, 100)) 
+            py.draw.rect(screen, "#798394", (i*120+cx, j*120+cy, 100, 100)) 
     py.display.flip()
     clock.tick(60)
 py.quit()
