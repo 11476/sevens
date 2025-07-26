@@ -25,7 +25,8 @@ while running:
    
     for i in range(5):
         for j in range(5):
-            py.draw.rect(screen, "#798394", (i*gap+cx, j*gap+cy, square_side, square_side), border_top_left_radius=20) 
+            #center squares
+            py.draw.rect(screen, "#798394", (i*gap+cx+gap, j*gap+cy+gap, square_side, square_side), border_top_left_radius=20) 
     py.display.flip()
     py.display.set_caption(str(clock.get_fps()))
     clock.tick(60)
