@@ -15,10 +15,10 @@ while running:
             running = False
     screen.fill("white")
     # center at the center of the screen, not top-left of grid
-    grid_width = 5 * 100 + 4 * 20  
-    grid_height = 5 * 100 + 4 * 20
-    cx = (width - grid_width) // 2+gap
-    cy = (height - grid_height) // 2+gap
+    grid_width = 5 * 100 + 4 * 20  +gap
+    grid_height = 5 * 100 + 4 * 20 +gap
+    cx = (width - grid_width) // 2
+    cy = (height - grid_height) // 2
     #draw square underlay
     py.draw.rect(screen, "#96a0b0", (cx, cy, grid_width, grid_height), border_radius=15)
     # draw 5x5 square of rectangles
