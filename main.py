@@ -26,6 +26,7 @@ while running:
             py.draw.rect(screen, "#798394", (i*120+cx, j*120+cy, 100, 100)) 
     py.display.flip()
     py.display.set_caption(str(clock.get_fps()))
+    clock.tick(60)
 
 py.quit()
 print("done")
