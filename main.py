@@ -13,8 +13,8 @@ while running:
             running = False
     screen.fill("white")
     # center
-    cx = width/2 - 250
-    cy = height/2 - 250
+    cx = width//2
+    cy = height//2
     # draw 5x5 square of rectangles
     for i in range(5):
         for j in range(5):
