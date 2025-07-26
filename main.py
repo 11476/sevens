@@ -12,9 +12,11 @@ while running:
         if event.type == py.QUIT:
             running = False
     screen.fill("white")
-    # center
-    cx = width//2
-    cy = height//2
+    # center at the center of the screen, not top-left of grid
+    grid_width = 5 * 100 + 4 * 20  # 5 squares, 4 gaps of 20px (120-100)
+    grid_height = 5 * 100 + 4 * 20
+    cx = (width - grid_width) // 2
+    cy = (height - grid_height) // 2
     # draw 5x5 square of rectangles
     for i in range(5):
         for j in range(5):
