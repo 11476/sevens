@@ -25,7 +25,7 @@ while running:
         for j in range(5):
             py.draw.rect(screen, "#798394", (i*120+cx, j*120+cy, 100, 100)) 
     py.display.flip()
-    py.display.set_caption(clock.get_fps())
+    py.display.set_caption(str(clock.get_fps()))
 
 py.quit()
 print("done")
