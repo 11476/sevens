@@ -107,6 +107,40 @@ while running:
     for event in py.event.get():
         if event.type == py.QUIT:
             running = False
+
+# Add ability to swap two cells with mouse clicks
+selected_cell = None  # Store the first selected cell
+
+def get_cell_from_mouse(pos, cx, cy):
+    mx, my = pos
+    # Check if click is inside the grid
+    if cx <= mx < cx + size * gap and cy <= my < cy + size * gap:
+        col = (mx - cx) // gap
+        row = (my - cy) // gap
+        if 0 <= row < size and 0 <= col < size:
+            return int(row), int(col)
+    return None
+
+while running:   
+    for event in py.event.get():
+        if event.type == py.QUIT:
+            running = False
+        elif event.type == py.MOUSEBUTTONDOWN and event.button == 1:
+            mouse_pos = py.mouse.get_pos()
+            # cx and cy are defined in the drawing code above
+            cell = get_cell_from_mouse(mouse_pos, cx, cy)
+            if cell:
+                if selected_cell is None:
+                    selected_cell = cell
+                else:
+                    r1, c1 = selected_cell
+                    r2, c2 = cell
+                    # Only allow swapping adjacent cells
+                    if (abs(r1 - r2) == 1 and c1 == c2) or (abs(c1 - c2) == 1 and r1 == r2):
+                        # Swap the cells
+                        game_state[r1][c1], game_state[r2][c2] = game_state[r2][c2], game_state[r1][c1]
+                        chain_loop()
+                    selected_cell = None
     chain_loop()
     
 py.quit()
