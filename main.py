@@ -6,9 +6,9 @@ clock = py.time.Clock()
 running = True
 height = 720
 width = 720
-gap = 75
-size = 8
-square_side = 72
+gap = 84
+size = 7
+square_side = 80
 font = py.font.SysFont('Verdana', 33)
 screen = py.display.set_mode((width, height))
 py.display.set_icon(py.image.load('./icon.png'))
