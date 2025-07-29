@@ -13,8 +13,8 @@ def check_and_merge(game_state, size):
                 # Check downwards for two identical cells
                 if row + 2 < size and game_state[row+1][col] == cell and game_state[row+2][col] == cell:
                     game_state[row+1][col] = 0
-                    game_state[row+2][col] = 0
-                    game_state[row][col] = cell * 3
+                    game_state[row+2][col] = cell * 3
+                    game_state[row][col] = 0
                 continue
             sum = cell
             # to the right
