@@ -125,22 +125,6 @@ while running:
     for event in py.event.get():
         if event.type == py.QUIT:
             running = False
-        elif event.type == py.MOUSEBUTTONDOWN and event.button == 1:
-            mouse_pos = py.mouse.get_pos()
-            # cx and cy are defined in the drawing code above
-            cell = get_cell_from_mouse(mouse_pos, cx, cy)
-            if cell:
-                if selected_cell is None:
-                    selected_cell = cell
-                else:
-                    r1, c1 = selected_cell
-                    r2, c2 = cell
-                    # Only allow swapping adjacent cells
-                    if (abs(r1 - r2) == 1 and c1 == c2) or (abs(c1 - c2) == 1 and r1 == r2):
-                        # Swap the cells
-                        game_state[r1][c1], game_state[r2][c2] = game_state[r2][c2], game_state[r1][c1]
-                        chain_loop()
-                    selected_cell = None
     chain_loop()
     
 py.quit()
