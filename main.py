@@ -14,6 +14,7 @@ screen = py.display.set_mode((width, height))
 py.display.set_icon(py.image.load('./icon.png'))
 game_state = [[0 for i in range(size)] for i in range(size)]
 last_game_state = [[0 for i in range(size)] for i in range(size)]
+
 def draw_rect(id, rows, cols, cx, cy):
     positionY=rows*gap+cx+gap/2
     positionX=cols*gap+cy+gap/2
@@ -48,6 +49,7 @@ def draw_rect(id, rows, cols, cx, cy):
     else:
         py.draw.rect(screen, "beige", properties)
         draw_text(str(id))
+
 def draw():
     screen.fill("white")
     diff = gap-square_side
@@ -61,21 +63,44 @@ def draw():
     for rows in range(size):
             for cols in range(size):
                 draw_rect(game_state[rows][cols], cols, rows, cx, cy)
+
 def chain_loop():
-    while last_game_state != game_state:
-        last_game_state = game_state
+    # Create a copy of the current state
+    last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
+    
+    # Keep track of changes
+    changed = True
+    while changed:
+        changed = False
+        
+        # Check if state changed after each operation
         GS.fill_game_state(game_state, size)
+        if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
+            changed = True
+            last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
+        
         draw()
         py.display.flip()
         clock.tick(2)
+        
         GS.check_and_merge(game_state, size)
+        if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
+            changed = True
+            last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
+        
         draw()
         py.display.flip()
         clock.tick(2)
+        
         GS.gravity(game_state, size)
+        if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
+            changed = True
+            last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
+        
         draw()
         py.display.flip()
         clock.tick(1)
+
 while running:   
     for event in py.event.get():
         if event.type == py.QUIT:
