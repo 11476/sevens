@@ -81,7 +81,7 @@ def chain_loop():
         
         draw()
         py.display.flip()
-        clock.tick(4)
+        clock.tick(2)
         
         GS.check_and_merge(game_state, size)
         if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
@@ -90,7 +90,7 @@ def chain_loop():
         
         draw()
         py.display.flip()
-        clock.tick(4)
+        clock.tick(2)
         
         GS.gravity(game_state, size)
         if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
@@ -99,7 +99,7 @@ def chain_loop():
         
         draw()
         py.display.flip()
-        clock.tick(2)
+        clock.tick(1)
 
 while running:   
     for event in py.event.get():
