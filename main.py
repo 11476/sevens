@@ -13,6 +13,7 @@ font = py.font.SysFont('Verdana', 33)
 screen = py.display.set_mode((width, height))
 py.display.set_icon(py.image.load('./icon.png'))
 game_state = [[0 for i in range(size)] for i in range(size)]
+last_game_state = [[0 for i in range(size)] for i in range(size)]
 def draw_rect(id, rows, cols, cx, cy):
     positionY=rows*gap+cx+gap/2
     positionX=cols*gap+cy+gap/2
@@ -60,21 +61,26 @@ def draw():
     for rows in range(size):
             for cols in range(size):
                 draw_rect(game_state[rows][cols], cols, rows, cx, cy)
+def chain_loop():
+    while last_game_state != game_state:
+        last_game_state = game_state
+        GS.fill_game_state(game_state, size)
+        draw()
+        py.display.flip()
+        clock.tick(2)
+        GS.check_and_merge(game_state, size)
+        draw()
+        py.display.flip()
+        clock.tick(2)
+        GS.gravity(game_state, size)
+        draw()
+        py.display.flip()
+        clock.tick(1)
 while running:   
     for event in py.event.get():
         if event.type == py.QUIT:
             running = False
-    GS.fill_game_state(game_state, size)
-    draw()
-    py.display.flip()
-    clock.tick(24)
-    GS.check_and_merge(game_state, size)
-    draw()
-    py.display.flip()
-    clock.tick(24)
-    GS.gravity(game_state, size)
-    draw()
-    py.display.flip()
-    clock.tick(12)
+    chain_loop()
+    
 py.quit()
 print("done")
