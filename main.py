@@ -1,74 +1,111 @@
-from ast import match_case
 import pygame as py
+import game_state as GS
 #hi
 py.init()
-
 clock = py.time.Clock()
 running = True
 height = 720
 width = 720
-gap = 120
-square_side = 100
+gap = 84
+size = 7
+square_side = 80
+font = py.font.SysFont('Verdana', 33)
 screen = py.display.set_mode((width, height))
-game_state = [
-    [0, 1, 2, 3, 4],
-    [5, 6, 7, 21, 63],
-    [189, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0]]
+py.display.set_icon(py.image.load('./icon.png'))
+game_state = [[0 for i in range(size)] for i in range(size)]
+last_game_state = [[0 for i in range(size)] for i in range(size)]
+
 def draw_rect(id, rows, cols, cx, cy):
     positionY=rows*gap+cx+gap/2
     positionX=cols*gap+cy+gap/2
-    def draw_text(text):
-        font = py.font.SysFont(None, 48)
-        text_surface = font.render(text, True, (0, 0, 0))
+    def draw_text(text, color = (0, 0, 0)):
+        text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect(center=(positionY + square_side // 2, positionX + square_side // 2))
         screen.blit(text_surface, text_rect)
     properties = (positionY, positionX, square_side, square_side)
-    match id:
-        case 0:
-            py.draw.rect(screen, "gray", properties, border_top_left_radius=20, border_bottom_right_radius=20) 
-        case 1:
-            py.draw.rect(screen, "#FED3C9", properties, border_radius=15)
-            draw_text('1') 
-        case 2:
-            py.draw.rect(screen, "#FCBDB7", properties, border_radius=15)
-            draw_text('2') 
-        case 3:
-            py.draw.rect(screen, "#FBA7A5", properties, border_radius=18)
-            draw_text('3') 
-        case 4:
-            py.draw.rect(screen, "#FA9193", properties, border_radius=18)
-            draw_text('4') 
-        case 5:
-            py.draw.rect(screen, "#F87B81", properties, border_radius=18)
-            draw_text('5') 
-        case _:
-            py.draw.rect(screen, "beige", properties)
-            draw_text(str(id)) 
-            
-while running:
+    if id == 0:
+        py.draw.rect(screen, "#798394", properties, border_top_left_radius=20, border_bottom_right_radius=20) 
+    elif id == 1:
+        py.draw.rect(screen, "#FED3C9", properties, border_radius=15)
+        draw_text('1')
+    elif id == 2:
+        py.draw.rect(screen, "#FCBDB7", properties, border_radius=15)
+        draw_text('2')
+    elif id == 3:
+        py.draw.rect(screen, "yellow", properties, border_radius=18)
+        draw_text('3')
+    elif id == 4:
+        py.draw.rect(screen, "green", properties, border_radius=18)
+        draw_text('4')
+    elif id == 5:
+        py.draw.rect(screen, "pink", properties, border_radius=18)
+        draw_text('5')
+    elif id == 6:
+        py.draw.rect(screen, "salmon", properties, border_radius=18)
+        draw_text('6')
+    elif id == 7:
+        py.draw.rect(screen, "#B5333C", properties, border_radius=18)
+        draw_text('7', (255, 255, 255))
+    else:
+        py.draw.rect(screen, "beige", properties)
+        draw_text(str(id))
+
+def draw():
+    screen.fill("white")
+    diff = gap-square_side
+    grid_width = size*square_side+4*diff+gap
+    grid_height = size*square_side+4*diff+gap
+    cx = (width - grid_width)//2
+    cy = (height - grid_height)//2
+        #draw square underlay
+    py.draw.rect(screen, "#96a0b0", (cx, cy, grid_width, grid_height), border_radius=15)
+        #draw sizexsize grid of squares
+    for rows in range(size):
+            for cols in range(size):
+                draw_rect(game_state[rows][cols], cols, rows, cx, cy)
+
+def chain_loop():
+    # Create a copy of the current state
+    last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
+    
+    # Keep track of changes
+    changed = True
+    while changed:
+        changed = False
+        
+        # Check if state changed after each operation
+        GS.fill_game_state(game_state, size)
+        if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
+            changed = True
+            last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
+        
+        draw()
+        py.display.flip()
+        clock.tick(1)
+        
+        GS.check_and_merge(game_state, size)
+        if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
+            changed = True
+            last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
+        
+        draw()
+        py.display.flip()
+        clock.tick(1)
+        
+        GS.gravity(game_state, size)
+        if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
+            changed = True
+            last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
+        
+        draw()
+        py.display.flip()
+        clock.tick(1)
+
+while running:   
     for event in py.event.get():
         if event.type == py.QUIT:
             running = False
-
-    screen.fill("white")
-    diff = gap-square_side
-    grid_width = 5*square_side+4*diff+gap
-    grid_height = 5*square_side+4*diff+gap
-    cx = (width - grid_width)//2
-    cy = (height - grid_height)//2
-    #draw square underlay
-    py.draw.rect(screen, "#96a0b0", (cx, cy, grid_width, grid_height), border_radius=15)
-    #draw 5x5 grid of squares
-    for rows in range(5):
-        for cols in range(5):
-            draw_rect(game_state[rows][cols], cols, rows, cx, cy)
-            
+    chain_loop()
     
-    py.display.flip()
-    py.display.set_icon(screen)
-    clock.tick(31)
-
 py.quit()
 print("done")
