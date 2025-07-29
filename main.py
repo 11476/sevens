@@ -8,11 +8,13 @@ height = 720
 width = 720
 gap = 84
 size = 7
+square_side = 80
+diff = gap-square_side
 grid_width = size*square_side+4*diff+gap
 grid_height = size*square_side+4*diff+gap
 cx = (width - grid_width)//2
 cy = (height - grid_height)//2
-square_side = 80
+
 font = py.font.SysFont('Verdana', 33)
 Bfont = py.font.SysFont('Verdana', 33, True, True)
 screen = py.display.set_mode((width, height))
@@ -58,10 +60,6 @@ def draw_rect(id, rows, cols, cx, cy):
 
 def draw():
     screen.fill("white")
-    diff = gap-square_side
-    
-    
-        #draw square underlay
     py.draw.rect(screen, "#96a0b0", (cx, cy, grid_width, grid_height), border_radius=15)
         #draw sizexsize grid of squares
     for rows in range(size):
