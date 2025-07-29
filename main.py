@@ -31,16 +31,16 @@ def draw_rect(id, rows, cols, cx, cy):
         py.draw.rect(screen, "#FCBDB7", properties, border_radius=15)
         draw_text('2')
     elif id == 3:
-        py.draw.rect(screen, "#FBA7A5", properties, border_radius=18)
+        py.draw.rect(screen, "yellow", properties, border_radius=18)
         draw_text('3')
     elif id == 4:
-        py.draw.rect(screen, "#FA9193", properties, border_radius=18)
+        py.draw.rect(screen, "green", properties, border_radius=18)
         draw_text('4')
     elif id == 5:
-        py.draw.rect(screen, "#F87B81", properties, border_radius=18)
+        py.draw.rect(screen, "pink", properties, border_radius=18)
         draw_text('5')
     elif id == 6:
-        py.draw.rect(screen, "#E76970", properties, border_radius=18)
+        py.draw.rect(screen, "salmon", properties, border_radius=18)
         draw_text('6')
     elif id == 7:
         py.draw.rect(screen, "#B5333C", properties, border_radius=18)

@@ -44,4 +44,4 @@ def fill_game_state(game_state, size):
     for row in range(size):
         for col in range(size):
             if game_state[row][col]==0:
-                game_state[row][col] = [1, 2, 4][random.randint(0, 2)]
+                game_state[row][col] = random.randint(1, 7)
