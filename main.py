@@ -9,7 +9,7 @@ width = 720
 gap = 75
 size = 8
 square_side = 72
-font = py.font.SysFont('Verdana', 21)
+font = py.font.SysFont('Verdana', 33)
 screen = py.display.set_mode((width, height))
 py.display.set_icon(py.image.load('./icon.png'))
 game_state = [[0 for i in range(size)] for i in range(size)]
@@ -17,7 +17,6 @@ def draw_rect(id, rows, cols, cx, cy):
     positionY=rows*gap+cx+gap/2
     positionX=cols*gap+cy+gap/2
     def draw_text(text, color = (0, 0, 0)):
-        
         text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect(center=(positionY + square_side // 2, positionX + square_side // 2))
         screen.blit(text_surface, text_rect)
@@ -26,7 +25,7 @@ def draw_rect(id, rows, cols, cx, cy):
         py.draw.rect(screen, "#798394", properties, border_top_left_radius=20, border_bottom_right_radius=20) 
     elif id == 1:
         py.draw.rect(screen, "#FED3C9", properties, border_radius=15)
-        draw_text('1')
+        draw_text('1000')
     elif id == 2:
         py.draw.rect(screen, "#FCBDB7", properties, border_radius=15)
         draw_text('2')
