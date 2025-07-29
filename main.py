@@ -9,14 +9,7 @@ width = 720
 gap = 84
 size = 7
 square_side = 80
-diff = gap-square_side
-grid_width = size*square_side+4*diff+gap
-grid_height = size*square_side+4*diff+gap
-cx = (width - grid_width)//2
-cy = (height - grid_height)//2
-
 font = py.font.SysFont('Verdana', 33)
-Bfont = py.font.SysFont('Verdana', 33, True, True)
 screen = py.display.set_mode((width, height))
 py.display.set_icon(py.image.load('./icon.png'))
 game_state = [[0 for i in range(size)] for i in range(size)]
@@ -25,9 +18,8 @@ last_game_state = [[0 for i in range(size)] for i in range(size)]
 def draw_rect(id, rows, cols, cx, cy):
     positionY=rows*gap+cx+gap/2
     positionX=cols*gap+cy+gap/2
-    def draw_text(text, color = (0, 0, 0), bold=False):
-        if bold: text_surface = font.render(text, True, color)
-        else: text_surface = Bfont.render(text, True, color)
+    def draw_text(text, color = (0, 0, 0)):
+        text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect(center=(positionY + square_side // 2, positionX + square_side // 2))
         screen.blit(text_surface, text_rect)
     properties = (positionY, positionX, square_side, square_side)
@@ -56,10 +48,16 @@ def draw_rect(id, rows, cols, cx, cy):
         draw_text('7', (255, 255, 255))
     else:
         py.draw.rect(screen, "beige", properties)
-        draw_text(str(id), bold=True)
+        draw_text(str(id))
 
 def draw():
     screen.fill("white")
+    diff = gap-square_side
+    grid_width = size*square_side+4*diff+gap
+    grid_height = size*square_side+4*diff+gap
+    cx = (width - grid_width)//2
+    cy = (height - grid_height)//2
+        #draw square underlay
     py.draw.rect(screen, "#96a0b0", (cx, cy, grid_width, grid_height), border_radius=15)
         #draw sizexsize grid of squares
     for rows in range(size):
@@ -102,24 +100,6 @@ def chain_loop():
         draw()
         py.display.flip()
         clock.tick(2)
-
-while running:   
-    for event in py.event.get():
-        if event.type == py.QUIT:
-            running = False
-
-# Add ability to swap two cells with mouse clicks
-selected_cell = None  # Store the first selected cell
-
-def get_cell_from_mouse(pos, cx, cy):
-    mx, my = pos
-    # Check if click is inside the grid
-    if cx <= mx < cx + size * gap and cy <= my < cy + size * gap:
-        col = (mx - cx) // gap
-        row = (my - cy) // gap
-        if 0 <= row < size and 0 <= col < size:
-            return int(row), int(col)
-    return None
 
 while running:   
     for event in py.event.get():
