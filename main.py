@@ -27,7 +27,7 @@ def draw_rect(id, rows, cols, cx, cy):
         py.draw.rect(screen, "#798394", properties, border_top_left_radius=20, border_bottom_right_radius=20) 
     elif id == 1:
         py.draw.rect(screen, "#FED3C9", properties, border_radius=15)
-        draw_text('1000')
+        draw_text('1')
     elif id == 2:
         py.draw.rect(screen, "#FCBDB7", properties, border_radius=15)
         draw_text('2')
@@ -81,7 +81,7 @@ def chain_loop():
         
         draw()
         py.display.flip()
-        clock.tick(2)
+        clock.tick(4)
         
         GS.check_and_merge(game_state, size)
         if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
@@ -90,7 +90,7 @@ def chain_loop():
         
         draw()
         py.display.flip()
-        clock.tick(2)
+        clock.tick(4)
         
         GS.gravity(game_state, size)
         if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
@@ -99,7 +99,7 @@ def chain_loop():
         
         draw()
         py.display.flip()
-        clock.tick(1)
+        clock.tick(2)
 
 while running:   
     for event in py.event.get():
