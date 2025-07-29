@@ -65,11 +65,11 @@ while running:
     for event in py.event.get():
         if event.type == py.QUIT:
             running = False
-    GS.fill_game_state()
+    GS.fill_game_state(game_state, size)
     draw()
     py.display.flip()
     clock.tick(1)
-    GS.check_and_merge()
+    GS.check_and_merge(game_state, size)
     draw()
     py.display.flip()
     clock.tick(1)
