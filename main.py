@@ -103,7 +103,7 @@ def chain_loop():
         draw()
         py.display.flip()
         clock.tick(first)
-        first = 1; #keep speed when the grid is filled and no merges
+        first = 24; #keep speed when the grid is filled and no merges
 
 while running:   
     for event in py.event.get():
