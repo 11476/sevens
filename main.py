@@ -105,6 +105,28 @@ while running:
     for event in py.event.get():
         if event.type == py.QUIT:
             running = False
+    # Detect clicks on a square
+    if event.type == py.MOUSEBUTTONDOWN and event.button == 1:
+        mouse_x, mouse_y = event.pos
+        # Calculate grid's top-left corner
+        grid_width = size * 60 + (size - 1) * 8
+        grid_height = size * 60 + (size - 1) * 8
+        cx = (width - grid_width)//2
+        cy = (height - grid_height)//2
+        # Check if click is inside the grid
+        if cx <= mouse_x < cx + grid_width and cy <= mouse_y < cy + grid_height:
+            # Calculate which square was clicked
+            rel_x = mouse_x - cx
+            rel_y = mouse_y - cy
+            for row in range(size):
+                for col in range(size):
+                    square_x = col * (60 + 8)
+                    square_y = row * (60 + 8)
+                    if (square_x <= rel_x < square_x + 60) and (square_y <= rel_y < square_y + 60):
+                        # You can handle the click on (row, col) here
+                        print(f"Clicked on square: row={row}, col={col}")
+                        # For example, you could set a flag or call a function
+                        break
     chain_loop()
     
 py.quit()
