@@ -44,7 +44,7 @@ def fill_game_state(game_state, size):
     for row in range(size):
         for col in range(size):
             if game_state[row][col]==0:
-                game_state[row][col] = random.randint(1, 7)
+                game_state[row][col] = random.randint(7, 7)
 def gravity(game_state, size):
     for col in range(size):
         for row in range(size - 2, -1, -1):  # start from second-to-last row upwards
