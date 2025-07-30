@@ -1,3 +1,4 @@
+from math import sqrt
 import pygame as py
 import game_state as GS
 #hi
@@ -7,7 +8,7 @@ running = True
 height = 720
 width = 720
 gap = 64
-size = 10
+size = 1
 square_side = 60
 cursor_pos = [0, 0]  # [row, col]
 row, col = cursor_pos
@@ -48,7 +49,7 @@ def draw_rect(id, rows, cols, cx, cy):
         py.draw.rect(screen, "#B5333C", properties, border_radius=18)
         draw_text('7', (255, 255, 255))
     else:
-        py.draw.rect(screen, "beige", properties)
+        py.draw.rect(screen, "beige", properties, border_radius=sqrt(id))
         draw_text(str(id))
 
 def draw():
