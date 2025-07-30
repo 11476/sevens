@@ -15,7 +15,6 @@ font = py.font.SysFont('Verdana', 33)
 screen = py.display.set_mode((width, height))
 py.display.set_icon(py.image.load('./icon.png'))
 game_state = [[0 for i in range(size)] for i in range(size)]
-last_game_state = [[0 for i in range(size)] for i in range(size)]
 
 def draw_rect(id, rows, cols, cx, cy):
     positionY=rows*gap+cx+gap/2
@@ -69,7 +68,9 @@ def draw():
 def chain_loop():
     # Create a copy of the current state
     last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
-    
+    def has_changed():
+        return any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size))
+    first = 0
     # Keep track of changes
     changed = True
     while changed:
@@ -77,31 +78,32 @@ def chain_loop():
         
         # Check if state changed after each operation
         GS.fill_game_state(game_state, size)
-        if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
+        if has_changed():
             changed = True
             last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
         
         draw()
         py.display.flip()
-        clock.tick(1)
+        clock.tick(first)
         
         GS.check_and_merge(game_state, size)
-        if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
+        if has_changed():
             changed = True
             last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
         
         draw()
         py.display.flip()
-        clock.tick(1)
+        clock.tick(first)
         
         GS.gravity(game_state, size)
-        if any(game_state[row][col] != last_state[row][col] for row in range(size) for col in range(size)):
+        if has_changed():
             changed = True
             last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
         
         draw()
         py.display.flip()
-        clock.tick(1)
+        clock.tick(first)
+        first = 1; #keep speed when the grid is filled and no merges
 
 while running:   
     for event in py.event.get():
