@@ -12,26 +12,15 @@ gap = 84
 size = 7
 square_side = 80
 font = py.font.SysFont('Verdana', 33)
-<<<<<<< HEAD
 fontBold = py.font.SysFont('Verdana', 33, bold=True, italic=True )
-=======
-fontBold = py.font.SysFont('Verdana', 33, True, True)
->>>>>>> main
 screen = py.display.set_mode((width, height))
 py.display.set_icon(py.image.load('./icon.png'))
 game_state = [[0 for i in range(size)] for i in range(size)]
 
-<<<<<<< HEAD
 def draw_rect(id, rows, cols):
     positionY=rows*gap+gap/2
     positionX=cols*gap+gap/2
     def draw_text(text, color = (0, 0, 0), bold=False):
-=======
-def draw_rect(id, rows, cols, cx, cy):
-    positionY=rows*gap+cx+gap/2
-    positionX=cols*gap+cy+gap/2
-    def draw_text(text, color = (0, 0, 0), bold = False):
->>>>>>> main
         if bold: text_surface = fontBold.render(text, True, color)
         else: text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect(center=(positionY + square_side // 2, positionX + square_side // 2))
@@ -61,13 +50,8 @@ def draw_rect(id, rows, cols, cx, cy):
         py.draw.rect(screen, "#B5333C", properties, border_radius=18)
         draw_text('7', (255, 255, 255))
     else:
-<<<<<<< HEAD
         py.draw.rect(screen, "beige", properties, border_radius=3)
         draw_text(str(id))
-=======
-        py.draw.rect(screen, "beige", properties)
-        draw_text(str(id), bold=True)
->>>>>>> main
 
 def draw():
     screen.fill("white")
