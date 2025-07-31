@@ -3,7 +3,7 @@ import pygame as py
 import game_state as GS
 #hi
 py.init()
-state_speed = 1 #For better loading at first, and also being able to see the "animations" after
+state_speed = 0 #For better loading at first, and also being able to see the "animations" after
 state_changed = True
 clock = py.time.Clock()
 running = True
@@ -113,7 +113,7 @@ def chain_loop():
             last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
         
         draw()
-        py.display.flip()
+#        py.display.flip()
         clock.tick(state_speed)
         
         GS.check_and_merge(game_state, size)
@@ -122,7 +122,7 @@ def chain_loop():
             last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
         
         draw()
-        py.display.flip()
+#        py.display.flip()
         clock.tick(state_speed)
         
         GS.gravity(game_state, size)
@@ -131,7 +131,7 @@ def chain_loop():
             last_state = [[game_state[row][col] for col in range(size)] for row in range(size)]
         
         draw()
-        py.display.flip()
+#        py.display.flip()
         clock.tick(state_speed)
     state_speed = 1
 # draw(loading=True)
