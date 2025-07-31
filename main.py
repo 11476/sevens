@@ -63,7 +63,7 @@ def draw_rect(id, rows, cols, cx, cy):
         draw_text('6')
     elif id == 7:
         py.draw.rect(screen, "#B5333C", properties, border_radius=18)
-        draw_text('7', (255, 255, 255))
+        draw_text('7', (255, 255, 255), True)
     else:
 <<<<<<< HEAD
         py.draw.rect(screen, "beige", properties, border_radius=3)
