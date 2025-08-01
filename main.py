@@ -62,8 +62,8 @@ def draw_rect(id, rows, cols):
         py.draw.rect(screen, "#B5333C", properties, border_radius=18)
         draw_text('7', (255, 255, 255), bold=True)
     elif id == 21:
-        py.draw.rect(screen, "beige", properties, border_radius=18)
-        draw_text('21', bold=True)
+        py.draw.rect(screen, "#007f00", properties, border_radius=18)
+        draw_text('21',(255, 255, 255), bold=True)
     else:
         py.draw.rect(screen, "beige", properties, border_radius=3)
         draw_text(str(id), bold=True)
