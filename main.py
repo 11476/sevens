@@ -135,7 +135,7 @@ def draw_left_side():
 def score_screen():
     print('hi')
     global score
-    score = sum(sum(row) for row in game_state)
+    score = sum(sum(row) for row in game_state) * 7
     # Show a simple score screen
     screen.fill("gray")
     # Draw the score in the center of the main play area
