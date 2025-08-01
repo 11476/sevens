@@ -2,26 +2,27 @@
 def check_and_merge(game_state, size):
     merges = []
     used = set()  # To prevent a cell from being in more than one merge
-    # First pass: find all merge groups
+    
+    # First pass: find all possible merge groups
+    all_possible_merges = []
+    
     for row in range(size):
         for col in range(size):
             cell = game_state[row][col]
             if cell < 1:
                 continue
+                
             # Triple merge (cell >= 7)
             if cell >= 7:
                 # Horizontal
-                if col + 2 < size and all((row, col + i) not in used for i in range(3)):
+                if col + 2 < size:
                     if game_state[row][col+1] == cell and game_state[row][col+2] == cell:
-                        merges.append(([(row, col), (row, col+1), (row, col+2)], cell * 3))
-                        used.update([(row, col), (row, col+1), (row, col+2)])
-                        continue
+                        all_possible_merges.append(([(row, col), (row, col+1), (row, col+2)], cell * 3, 'triple'))
                 # Vertical
-                if row + 2 < size and all((row + i, col) not in used for i in range(3)):
+                if row + 2 < size:
                     if game_state[row+1][col] == cell and game_state[row+2][col] == cell:
-                        merges.append(([(row, col), (row+1, col), (row+2, col)], cell * 3))
-                        used.update([(row, col), (row+1, col), (row+2, col)])
-                        continue
+                        all_possible_merges.append(([(row, col), (row+1, col), (row+2, col)], cell * 3, 'triple'))
+            
             # Sum-to-7 horizontal
             sum_ = cell
             group = [(row, col)]
@@ -29,16 +30,14 @@ def check_and_merge(game_state, size):
                 neighbor = game_state[row][c]
                 if not (neighbor != 0 and neighbor != 7):
                     break
-                if (row, c) in used:
-                    break
                 sum_ += neighbor
                 group.append((row, c))
                 if sum_ > 7:
                     break
                 if sum_ == 7 and len(group) > 1:
-                    merges.append((group[:], 7))
-                    used.update(group)
+                    all_possible_merges.append((group[:], 7, 'sum7'))
                     break
+            
             # Sum-to-7 vertical
             sum_ = cell
             group = [(row, col)]
@@ -46,17 +45,36 @@ def check_and_merge(game_state, size):
                 neighbor = game_state[r][col]
                 if not (neighbor != 0 and neighbor != 7):
                     break
-                if (r, col) in used:
-                    break
                 sum_ += neighbor
                 group.append((r, col))
                 if sum_ > 7:
                     break
                 if sum_ == 7 and len(group) > 1:
-                    merges.append((group[:], 7))
-                    used.update(group)
+                    all_possible_merges.append((group[:], 7, 'sum7'))
                     break
-    # Second pass: apply all merges
+    
+    # Sort merges by priority: triple merges first, then by length (longer first), then by position
+    def merge_priority(merge):
+        group, value, merge_type = merge
+        # Triple merges have highest priority
+        if merge_type == 'triple':
+            return (0, -len(group), group[0][0], group[0][1])
+        # For sum7 merges, longer groups have priority
+        return (1, -len(group), group[0][0], group[0][1])
+    
+    all_possible_merges.sort(key=merge_priority)
+    
+    # Second pass: apply merges in priority order, avoiding conflicts
+    for group, new_value, merge_type in all_possible_merges:
+        # Check if any cell in this group is already used
+        if any((r, c) in used for r, c in group):
+            continue
+        
+        # Apply this merge
+        merges.append((group, new_value))
+        used.update(group)
+    
+    # Third pass: apply all selected merges
     for group, new_value in merges:
         for r, c in group[:-1]:
             game_state[r][c] = 0
