@@ -64,7 +64,7 @@ def main():
     data_separator = ";" if is_windows else ":"
     console_option = "--noconsole" if is_windows else "--windowed"
     
-    # PyInstaller command with optimizations
+    # PyInstaller command with optimizations for faster loading
     pyinstaller_cmd = [
         sys.executable, "-m", "PyInstaller",
         "--onefile",  # Create a single executable file
@@ -76,6 +76,20 @@ def main():
         "--hidden-import=pygame",  # Ensure pygame is included
         "--hidden-import=os",  # Ensure os module is included
         "--hidden-import=sys",  # Ensure sys module is included
+        "--strip",  # Remove debug symbols to reduce size
+        "--exclude-module=tkinter",  # Exclude unused modules
+        "--exclude-module=matplotlib",
+        "--exclude-module=numpy",
+        "--exclude-module=pandas",
+        "--exclude-module=scipy",
+        "--exclude-module=PIL",
+        "--exclude-module=IPython",
+        "--exclude-module=jupyter",
+        "--exclude-module=notebook",
+        "--exclude-module=qtpy",
+        "--exclude-module=PyQt5",
+        "--exclude-module=PySide2",
+        "--exclude-module=wx",
         "main.py"
     ]
     
@@ -108,6 +122,12 @@ def main():
     print("1. Copy the entire 'dist' folder")
     print("2. Share it with others - they won't need Python or pygame installed!")
     print("3. Users can run the executable directly")
+    
+    print(f"\n=== Performance Tips ===")
+    print("• The executable may take 10-30 seconds to start on first run")
+    print("• Subsequent runs will be faster")
+    print("• For even faster loading, consider using --onedir instead of --onefile")
+    print("  (This creates a folder with the executable and dependencies)")
 
 if __name__ == "__main__":
     main() 

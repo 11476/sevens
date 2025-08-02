@@ -1,7 +1,7 @@
-# RUN MAIN.PY
-## this project uses pygame!
+RUN MAIN.PY with python and pygame installed for faster loading, USE BUILD.PY AND ITS EXECUTABLE for your **own convenience**
+
 This game is a combination of Match 3 and merging genres. I don't know how to describe it. Also, it revolves around the 4th prime.
-# Other
+
 [My website](https://milesian-one-hundred-dollar-bill.neocities.org/)
 has all of my other personal projects.
 
