@@ -1,3 +1,0 @@
-([('Window-81',
-   '/Users/gavinyu/Documents/window-81/dist/Window-81',
-   'EXECUTABLE')],)
