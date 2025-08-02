@@ -2,6 +2,20 @@ from math import sqrt
 import random
 import pygame as py
 import game_state as GS
+import os
+import sys
+
+# Helper function to get the correct path for resource files
+def resource_path(relative_path):
+    """Get absolute path to resource, works for dev and for PyInstaller"""
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    
+    return os.path.join(base_path, relative_path)
+
 #hi
 py.init()
 state_speed = 8 
@@ -20,7 +34,7 @@ row, col = None, None
 font = py.font.SysFont('Verdana', 20)
 fontBold = py.font.SysFont('Verdana', 30, bold=True, italic=True)
 screen = py.display.set_mode((width+score_width, height))
-py.display.set_icon(py.image.load('./icon.png'))
+py.display.set_icon(py.image.load(resource_path('icon.png')))
 game_state = [[0 for i in range(size)] for i in range(size)]
 grid_width = size * square_side + (size-1) * 4
 grid_height = size * square_side + (size-1) * 4
@@ -115,7 +129,7 @@ def draw_left_side():
     # Allocate space for some body text in the remaining space (below moves counter)
     # Load and display the instructions image below the moves counter
     try:
-        instructions_image = py.image.load("instructions.png")
+        instructions_image = py.image.load(resource_path("instructions.png"))
         # Scale the image to fit the available width (score panel)
         max_img_width = score_width - 20
         scale_factor = min(1.0, max_img_width / instructions_image.get_width())
