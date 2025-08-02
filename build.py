@@ -8,6 +8,7 @@ import os
 import sys
 import subprocess
 import shutil
+import platform
 
 def run_command(command, description):
     """Run a command and handle errors"""
@@ -42,18 +43,36 @@ def main():
         print("Installing pygame...")
         run_command("pip install pygame", "Installing pygame")
     
+    # Clean up previous builds
+    print("\nCleaning up previous builds...")
+    for cleanup_dir in ["dist", "build"]:
+        if os.path.exists(cleanup_dir):
+            shutil.rmtree(cleanup_dir)
+            print(f"✓ Removed {cleanup_dir} directory")
+    
+    # Remove spec file if it exists
+    spec_file = "Window-81.spec"
+    if os.path.exists(spec_file):
+        os.remove(spec_file)
+        print(f"✓ Removed {spec_file}")
+    
     # Create the executable
     print("\nBuilding executable...")
     
+    # Determine platform-specific settings
+    is_windows = platform.system() == "Windows"
+    data_separator = ";" if is_windows else ":"
+    console_option = "--noconsole" if is_windows else "--windowed"
+    
     # PyInstaller command with optimizations
     pyinstaller_cmd = [
-        "pyinstaller",
+        sys.executable, "-m", "PyInstaller",
         "--onefile",  # Create a single executable file
-        "--windowed",  # Don't show console window on Windows
+        console_option,  # Don't show console window
         "--name=Window-81",  # Name of the executable
         "--icon=icon.png",  # Use the game icon
-        "--add-data=icon.png;.",  # Include icon file
-        "--add-data=instructions.png;.",  # Include instructions image
+        f"--add-data=icon.png{data_separator}.",  # Include icon file
+        f"--add-data=instructions.png{data_separator}.",  # Include instructions image
         "--hidden-import=pygame",  # Ensure pygame is included
         "--hidden-import=os",  # Ensure os module is included
         "--hidden-import=sys",  # Ensure sys module is included
@@ -79,7 +98,12 @@ def main():
     
     print(f"\n=== Build Complete ===")
     print(f"Your executable is located in: {os.path.abspath(dist_dir)}")
-    print(f"Executable name: Window-81.exe (Windows) or Window-81 (macOS/Linux)")
+    
+    if is_windows:
+        print(f"Executable name: Window-81.exe")
+    else:
+        print(f"Executable name: Window-81 (macOS/Linux)")
+    
     print("\nTo distribute your game:")
     print("1. Copy the entire 'dist' folder")
     print("2. Share it with others - they won't need Python or pygame installed!")
